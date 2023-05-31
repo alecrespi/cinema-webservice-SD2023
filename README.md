@@ -1,3 +1,7 @@
+# Collaborators
+xxxxxx - Ferrario Luigi
+879186 - Crespi Alessandro
+
 # Cinema Booking Management System
 
 This GitHub repository contains a university project developed as part of the **Distributed Systems** course. The project focuses on building a web service app for a Cinema Booking Management System. It consists of a frontend HTML/Javascript page, a Java Jakarta EE servlet REST server, and a secondary server layer that acts as a data store in a non-persistent manner using an in-memory JSON object.
