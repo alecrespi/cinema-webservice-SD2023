@@ -5,16 +5,16 @@ import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
-@WebServlet("/keyboard")
-public class KeyboardServlet extends HttpServlet {
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
 
-    public KeyboardServlet() {
+    public HelloServlet() {
         super();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.getWriter().println("CIAO");
+        response.getWriter().println("Hello World!");
     }
 
 }
