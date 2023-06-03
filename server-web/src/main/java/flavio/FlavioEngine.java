@@ -1,4 +1,6 @@
-package flavioengine;
+package flavio;
+import exceptions.DBNotAliveException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -35,7 +37,7 @@ public class FlavioEngine {
         return isStreamOpen;
     }
 
-    public boolean ask(String query){
+    public FlavioEngine ask(String query) throws DBNotAliveException {
         try {
             // setup connection TCP to DB Server
             this.socket = new Socket(this.address, this.port);
@@ -44,10 +46,9 @@ public class FlavioEngine {
 
             this.out.write(query.getBytes());
             this.out.flush();
-
-            return true;
+            return this;
         } catch (IOException e) {
-            return false;
+            throw new DBNotAliveException(e.getMessage());
         }
     }
 
