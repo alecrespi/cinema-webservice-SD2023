@@ -31,6 +31,12 @@ public class Seat implements Comparable<Seat>{
         return new Seat(row, column);
     }
 
+    public boolean equalsToLocator(String locator) throws InvalidSeatLocatorException {
+        Seat s = Seat.parseSeat(locator);
+        s.setBookingCode(this.bookingCode);
+        return this.compareTo(s) == 0;
+    }
+
     //// INTERFACE METHODS
     // Getters
     public char getRow() { return row; }
@@ -38,7 +44,7 @@ public class Seat implements Comparable<Seat>{
     public String getBookingCode() { return bookingCode; }
 
     //Setters
-    public void bookingCode(String bookingCode) { this.bookingCode = bookingCode; }
+    public void setBookingCode(String bookingCode) { this.bookingCode = bookingCode; }
 
     @Override
     public int compareTo(Seat s) {
@@ -53,4 +59,5 @@ public class Seat implements Comparable<Seat>{
         else
             return diffBookingCode; // different bookings
     }
+
 }
