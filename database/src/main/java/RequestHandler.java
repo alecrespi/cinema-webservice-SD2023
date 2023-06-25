@@ -1,55 +1,49 @@
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 public class RequestHandler extends Thread{
-    private final Socket clientSocket;
+    private final Socket client;
     public RequestHandler(Socket socket){
-        this.clientSocket = socket;
+        this.client = socket;
     }
 
     @Override
     public void run() {
-        String messageFromClient = "";
-
         try {
-            messageFromClient = handleReceiveMessage();
-            System.out.println("Message from client: " + messageFromClient);
+            String request = getRequest();
+            System.out.println(Thread.currentThread().getName() + " serving : " + request);
 
-            handleResponseMessage(messageFromClient);
+            String response = evalQuery(request);
 
+            sendResponse(response);
+            this.client.close();
+            System.out.println(Thread.currentThread().getName() + " : Client served");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+            System.out.println(Thread.currentThread().getName() + " : socket lost");
         }
 
-        //ho paura che se tolgo l'interrupt poi non funziona più niente
-        interrupt();
     }
 
-
-    //return the actual client message
-    public String handleReceiveMessage() throws IOException {
-        //get the client socket input (in byte format)
-        InputStream socketInputStream = this.clientSocket.getInputStream();
-        BufferedInputStream buffer = new BufferedInputStream(socketInputStream);
-
-        byte[] byteArray = new byte[255];
-        int messageLength = buffer.read(byteArray);
-
-        //convert the client socket input from byte to String
-        return new String(byteArray, 0, messageLength);
+    public String getRequest() throws IOException {
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
+        String req = buffer.readLine();
+        return req;
     }
 
-    //handleResponseMessage send a response message back to the client
-    public void handleResponseMessage(String response) throws IOException {
-        PrintWriter outputStream = new PrintWriter(this.clientSocket.getOutputStream());
-
-        outputStream.write(response);
-        outputStream.flush();
-        outputStream.close();
+    public void sendResponse(String response) throws IOException {
+        PrintWriter out = new PrintWriter(this.client.getOutputStream());
+        out.write(response);
+        out.flush();
     }
 
+    public String evalQuery(String query){
+        String[] squery = query.split(" ", 3);
+        String rtr = "";
+        for(String q : squery)
+            rtr += q + " ; ";
+
+        return rtr;
+    }
 
 }

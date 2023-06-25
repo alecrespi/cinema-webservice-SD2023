@@ -1,20 +1,17 @@
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.regex.Pattern;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 public class TopoGigiDB {
-    ConcurrentHashMap<String, String> dbenv;
-    private ReadWriteLock lock;
+    protected final ConcurrentHashMap<String, String> dbenv;
+    private final ConcurrentSkipListSet<String> syncedKeys;
 
     public TopoGigiDB(){
         this.dbenv = new ConcurrentHashMap<>();
-        this.lock = new ReentrantReadWriteLock();
+        this.syncedKeys = new ConcurrentSkipListSet<>();
     }
 
     public String set(String id, @NotNull String value){
@@ -30,6 +27,26 @@ public class TopoGigiDB {
 
     public String remove(String id) {
         return this.dbenv.remove(id);
+    }
+
+    public boolean bind(String ...keys){
+        synchronized (this.syncedKeys){
+            // checking if there is intersection between keys and this.syncedKeys
+            Collection<String> intersection = new ArrayList<>(Arrays.asList(keys));
+            intersection.retainAll(this.syncedKeys);
+            if(!intersection.isEmpty())
+                return false;
+            this.syncedKeys.addAll(Arrays.asList(keys));
+            return true;
+        }
+    }
+
+
+    // return type??
+    public void release(String ...keys){
+        synchronized (this.syncedKeys){
+            this.syncedKeys.removeAll(Arrays.asList(keys));
+        }
     }
 
 //    public List<String> getMatches(String pattern){
