@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import exceptions.TimeOverlapException;
 import exceptions.TimeRangeException;
+import topogigiengine.TopoGigiDB;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Main {
-    public static final TopoGigiDB gigi = new TopoGigiDB();
+    private static final TopoGigiDB GIGI = TopoGigiDB.getInstance();
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static void main(String[] args) throws IOException {
@@ -58,9 +59,9 @@ public class Main {
                         currentStartTime <= susEndTime
                 )   throw new TimeOverlapException();
             }
-            gigi.set("moviesession:" + ms.get("id").asText(), mapper.writeValueAsString(ms));
+            GIGI.set("moviesession:" + ms.get("id").asText(), mapper.writeValueAsString(ms));
         }
-        gigi.set("moviesession:*",mapper.writeValueAsString(moviesessions));
+        GIGI.set("moviesession:*",mapper.writeValueAsString(moviesessions));
     }
 
 }

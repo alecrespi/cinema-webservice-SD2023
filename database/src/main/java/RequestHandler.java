@@ -1,21 +1,54 @@
+import exceptions.*;
+import topogigiengine.TopoGiGiInterpreter;
+import topogigiengine.TopoGigiDB;
+
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class RequestHandler extends Thread{
     private final Socket client;
-    public RequestHandler(Socket socket){
+    private final TopoGiGiInterpreter gigiSQL;
+    private final BufferedReader input;
+    private final PrintWriter output;
+
+    public RequestHandler(Socket socket) throws IOException {
         this.client = socket;
+        this.input = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
+        this.output = new PrintWriter(this.client.getOutputStream());
+        this.gigiSQL = TopoGiGiInterpreter.getInstance();
     }
 
     @Override
     public void run() {
         try {
-            String request = getRequest();
-            System.out.println(Thread.currentThread().getName() + " serving : " + request);
+            String script = getScript();
+            System.out.println(Thread.currentThread().getName() + " : serving...");
+            String[] reqs = script.split("\n");
+            ArrayList<String> response = new ArrayList<>();
+            for(String request : reqs){
 
-            String response = evalQuery(request);
+                try{
+                    response.add("#" + this.gigiSQL.eval(request));
+                }catch(UnknownCommandException | InvalidParametersException e){
+                    response.add("400");
+                    break;
+                }catch(UnprocessableEntityException e){
+                    response.add("422");
+                    break;
+                }catch(KeyAlreadyBoundException e){
+                    response.add("503");
+                    break;
+                }catch(UndefinedKeyException e){
+                    response.add("404");
+                    break;
+                }
+            }
 
-            sendResponse(response);
+            sendResponseBatch(response);
+
             this.client.close();
             System.out.println(Thread.currentThread().getName() + " : Client served");
         } catch (IOException e) {
@@ -25,25 +58,22 @@ public class RequestHandler extends Thread{
 
     }
 
-    public String getRequest() throws IOException {
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
-        String req = buffer.readLine();
-        return req;
+    private String getScript() throws IOException {
+        StringBuilder builder = new StringBuilder();
+        String message = this.input.readLine();
+        while (message != null) {
+            System.out.println(message);
+            builder.append(message);
+            if (!this.input.ready())     break;
+            System.out.println("here");
+            message = this.input.readLine(); // Read the next line
+        }
+
+        return builder.toString();
     }
 
-    public void sendResponse(String response) throws IOException {
-        PrintWriter out = new PrintWriter(this.client.getOutputStream());
-        out.write(response);
-        out.flush();
+    private void sendResponseBatch(List<String> batch){
+        this.output.write(String.join("\n",batch));
+        this.output.flush();
     }
-
-    public String evalQuery(String query){
-        String[] squery = query.split(" ", 3);
-        String rtr = "";
-        for(String q : squery)
-            rtr += q + " ; ";
-
-        return rtr;
-    }
-
 }
