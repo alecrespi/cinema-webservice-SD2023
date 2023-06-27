@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+}
+
+h1 {
+    margin-top: 0;
+}
+
+.movie {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    display: flex;
+}
+
+.movie img {
+    width: 150px;
+    height: 200px;
+    margin-right: 20px;
+}
+
+.movie-info {
+    flex-grow: 1;
+}
+
+.movie-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.movie-description {
+    margin-top: 10px;
+    font-size: 16px;
+}
