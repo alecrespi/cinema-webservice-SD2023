@@ -5,8 +5,8 @@ body {
 }
 
 header {
-    background-color: #333;
-    color: #fff;
+    background-color: #ddb892;
+    color: #241715;
     padding: 20px;
     text-align: center;
 }
@@ -17,11 +17,12 @@ main {
 
 h1 {
     margin-top: 0;
+    color: #241715;
 }
 
 .movie {
     margin-bottom: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #ddb892;
     padding: 10px;
     display: flex;
 }
@@ -44,4 +45,77 @@ h1 {
 .movie-description {
     margin-top: 10px;
     font-size: 16px;
+}
+
+
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #241715;
+}
+
+.screen {
+    width: 100%;
+    height: 30px;
+    background-color: #333;
+    margin-bottom: 20px;
+}
+
+.seat-container {
+    width: 400px; /* Set the desired width */
+    height: 400px; /* Set the desired height */
+    margin: 0 auto; /* Center the container horizontally */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.seat {
+    width: 20px;
+    height: 20px;
+    margin: 3px 1px;
+    background-color: #dad7cd;
+    border: 1px solid #dad7cd;
+    cursor: pointer;
+    position: relative;
+}
+
+.seat-number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0;
+    opacity: 0;
+}
+
+.seat.selected {
+    background-color: #d4a373;
+    border: 1px solid #d4a373;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.hidden-link {
+    display: inline;
+    text-decoration: none;
+    color: inherit;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+.hidden-link img {
+    border: none;
+    outline: none;
 }

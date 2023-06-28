@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Session Booking</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        // JavaScript logic for seat selection
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const totalSeats = 200;
+            const rows = Math.ceil(Math.sqrt(totalSeats));
+            const cols = Math.ceil(totalSeats / rows);
+            const seatContainer = document.querySelector('.seat-container');
+
+            for (let i = 0; i < totalSeats; i++) {
+                const seat = document.createElement('div');
+                seat.className = 'seat';
+                const seatNumber = document.createElement('span');
+                seatNumber.className = 'seat-number';
+                seatNumber.innerText = i + 1;
+                seat.appendChild(seatNumber);
+                seatContainer.appendChild(seat);
+            }
+
+            const seats = document.querySelectorAll('.seat');
+            seats.forEach((seat) => {
+                seat.addEventListener('click', () => {
+                    seat.classList.toggle('selected');
+                });
+            });
+        });
+
+        // JavaScript function for booking the selected seats
+        function bookSeats() {
+            const selectedSeats = document.querySelectorAll('.seat.selected');
+            if (selectedSeats.length === 0) {
+                alert('Please select at least one seat!');
+            } else {
+                const seatNumbers = Array.from(selectedSeats).map((seat) => seat.querySelector('.seat-number').innerText);
+                const message = `You have booked seats: ${seatNumbers.join(', ')}`;
+                alert(message);
+
+                //booking logic here
+                const xhr = new XMLHttpRequest();
+
+                // Define the request URL and method (adjust the URL as per your server configuration)
+                const url = 'http://example.com/book-seats'; // Replace with your server's endpoint
+                const method = 'POST';
+
+                // Prepare the data to be sent
+                const data = {
+                    seats: seatNumbers
+                };
+                const jsonData = JSON.stringify(data);
+
+                // Set up the request
+                xhr.open(method, url, true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                // Define the callback function when the request completes
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            // Request was successful
+                            console.log('Seats booked successfully');
+                        } else {
+                            // Request encountered an error
+                            console.error('Error booking seats:', xhr.status);
+                        }
+                    }
+                };
+
+                // Send the request
+                xhr.send(jsonData);
+            }
+        }
+    </script>
+</head>
+<body>
+<h1>Movie Session Booking</h1>
+
+<div class="screen"></div>
+
+<div class="seat-container"></div>
+
+<div class="button-container">
+    <button onclick="bookSeats()">Book</button>
+</div>
+</body>
+</html>
