@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Film Page</title>
+    <link rel="stylesheet" href="styles/movieStyle.css">
+</head>
+<body>
+<header>
+    <!-- Add your header content here -->
+    <h1>Film Title</h1>
+</header>
+<nav>
+    <!-- Add your navigation/menu here -->
+    <ul>
+        <a id="home-button" href="index.html">Home</a>
+    </ul>
+</nav>
+<main>
+    <section id="film-details">
+        <!-- Replace the film title with the smaller image of the film -->
+        <img src="images/image1.jpg" alt="image" style="width: 350px; height: auto;">
+        <p>Description of the film...</p>
+        <p>Director: John Doe</p>
+        <p>Genre: Action</p>
+        <!-- Add other film details as needed -->
+    </section>
+
+    <section id="session-selection">
+        <!-- Add the movie session selection here -->
+        <h2>Choose a Session</h2>
+        <form>
+            <div>
+                <input type="radio" id="session1" name="session" value="Session 1">
+                <a href="movieSession.html" class="hidden-link">
+                <label for="session1">s1 - Date/Time/Room</label>
+                </a>
+            </div>
+            <div>
+                <input type="radio" id="session2" name="session" value="Session 2">
+                <label for="session2">s2 - Date/Time/Room</label>
+            </div>
+            <div>
+                <input type="radio" id="session3" name="session" value="Session 3">
+                <label for="session3">s3 - Date/Time/Room</label>
+            </div>
+            <div>
+                <input type="radio" id="session4" name="session" value="Session 4">
+                <label for="session4">s4 - Date/Time/Room</label>
+            </div>
+            <div>
+                <input type="radio" id="session5" name="session" value="Session 5">
+                <label for="session5">s5 - Date/Time/Room</label>
+            </div>
+            <div>
+                <input type="radio" id="session6" name="session" value="Session 6">
+                <label for="session6">s6 - Date/Time/Room</label>
+            </div>
+            <!-- Add more session options as needed -->
+        </form>
+    </section>
+    <section id="film-reviews">
+        <!-- Add film reviews or user ratings here -->
+        <h2>Reviews</h2>
+        <div class="review">
+            <h3>Review Title</h3>
+            <p>Review content...</p>
+        </div>
+        <!-- Add more reviews as needed -->
+    </section>
+</main>
+<footer>
+    <!-- Add your footer content here -->
+    <p>&copy; 2023 CINErisata, by AleCre && loweegee</p>
+</footer>
+
+<script>
+    // JavaScript code
+    var bookingLink = document.getElementById("session1");
+    bookingLink.addEventListener("click", function() {
+        window.location.href = "movieSession.html";
+    });
+</script>
+</body>
+</html>

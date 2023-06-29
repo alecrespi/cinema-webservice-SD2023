@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Movie Session Booking</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/style.css">
 
     <script>
         // JavaScript logic for seat selection
@@ -40,51 +40,47 @@
                 const message = `You have booked seats: ${seatNumbers.join(', ')}`;
                 alert(message);
 
+                const viewBookingButton = document.getElementById('viewBookingButton');
+                viewBookingButton.classList.remove('hidden');
+
                 //booking logic here
-                const xhr = new XMLHttpRequest();
-
-                // Define the request URL and method (adjust the URL as per your server configuration)
-                const url = 'http://example.com/book-seats'; // Replace with your server's endpoint
-                const method = 'POST';
-
-                // Prepare the data to be sent
-                const data = {
-                    seats: seatNumbers
-                };
-                const jsonData = JSON.stringify(data);
-
-                // Set up the request
-                xhr.open(method, url, true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-
-                // Define the callback function when the request completes
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if (xhr.status === 200) {
-                            // Request was successful
-                            console.log('Seats booked successfully');
-                        } else {
-                            // Request encountered an error
-                            console.error('Error booking seats:', xhr.status);
-                        }
-                    }
-                };
-
-                // Send the request
-                xhr.send(jsonData);
             }
         }
+
+        function openBookingPage() {
+            window.open("bookingManagement.html", "_blank");
+        }
+
     </script>
+
 </head>
 <body>
-<h1>Movie Session Booking</h1>
+<header>
+    <h1>Movie Session Booking</h1>
+</header>
 
-<div class="screen"></div>
+<main>
+    <div class="screen"></div>
 
-<div class="seat-container"></div>
+    <div class="seat-container"></div>
 
-<div class="button-container">
-    <button onclick="bookSeats()">Book</button>
-</div>
+    <div class="button-container">
+        <button onclick="bookSeats()">Book</button>
+        <button id="viewBookingButton" class="hidden" onclick="openBookingPage()">View Booking</button>
+    </div>
+</main>
+
+<nav>
+    <!-- Add your navigation/menu here -->
+    <ul>
+        <a id="home-button" href="index.html">Home</a>
+    </ul>
+</nav>
+
+<footer>
+    <!-- Add your footer content here -->
+    <p>&copy; 2023 CINErisata. All rights reserved.</p>
+</footer>
+
 </body>
 </html>
