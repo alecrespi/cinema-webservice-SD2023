@@ -1,0 +1,108 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #d4a373;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+nav ul li a {
+    color: #d4a373;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+#film-details {
+    margin-bottom: 20px;
+}
+
+#session-selection {
+    margin-bottom: 20px;
+}
+
+#session-selection label {
+    display: inline-block;
+    width: 160px;
+    height: 80px;
+    border: 2px solid black;
+    margin: 10px;
+    text-align: center;
+    line-height: 76px;
+    cursor: pointer;
+}
+
+#session-selection input[type="radio"] {
+    display: none;
+}
+
+#session-selection label:hover {
+    background-color: #d4a373;
+    color: #fff;
+}
+
+#session-selection input[type="radio"]:checked + label {
+    background-color: #d4a373;
+    color: #fff;
+}
+
+#film-reviews {
+    margin-top: 20px;
+}
+
+.review {
+    margin-bottom: 20px;
+}
+
+footer {
+    background-color: #d4a373;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+#home-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #d4a373;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+#home-button:hover {
+    background-color: #241715;
+}
+
+.hidden-link {
+    display: inline;
+    text-decoration: none;
+    color: inherit;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
