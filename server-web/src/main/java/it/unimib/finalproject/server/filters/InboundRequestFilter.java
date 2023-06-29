@@ -10,6 +10,6 @@ public class InboundRequestFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext req) {
         // for troubleshooting purposes only
-        System.out.println("~~> " + req.getMethod() + " " + req.getUriInfo().toString());
+        System.out.println("~~> " + req.getMethod() + " /" + req.getUriInfo().getPath());
     }
 }

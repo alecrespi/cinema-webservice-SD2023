@@ -9,33 +9,31 @@ import jakarta.ws.rs.core.Response;
 
 import java.io.IOException;
 
-@Path("/moviesessions")
-public class MovieSessionResource {
+@Path("/movies")
+public class MovieResource {
     private final DBFacade db;
 
-    public MovieSessionResource(){
+    public MovieResource(){
         this.db = DBFacade.getInstance();
     }
 
-    // GET /moviesessions
+    // GET /movies
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllMovieSessions() throws IOException {
-        // creating Script sequence
+    public Response getAllMovies() throws IOException {
         QueryList script = new QueryList();
-        // append the first query
-        script.add("GET moviesession:*");
+        script.add("GET movie:*");
         QueryResolution mss = this.db.query(script).get(0);
         return forwardResponse(mss);
     }
 
-    // GET /moviesessions/{id}
+    // GET /movies/{id}
     @Path("/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAtomicMovieSession(@PathParam("id") String id) throws IOException {
+    public Response getAtomicMovie(@PathParam("id") String id) throws IOException {
         QueryList script = new QueryList();
-        script.add("GET moviesession:" + id);
+        script.add("GET movie:" + id);
         QueryResolution mss = this.db.query(script).get(0);
         return forwardResponse(mss);
     }
@@ -52,4 +50,5 @@ public class MovieSessionResource {
                     .status(res.error())
                     .build();
     }
+
 }

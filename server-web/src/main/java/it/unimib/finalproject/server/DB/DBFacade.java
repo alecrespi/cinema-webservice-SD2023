@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +38,7 @@ public class DBFacade {
      * @param script a sequence of instructions specified in TopoGiGi implementation
      * @return the response string that could represent success or failure
      */
-    public List<QueryResolution> query(String script) throws IOException {
+    public ScriptResolution query(String script) throws IOException {
         List<String> queries = Arrays.asList(script.split("\n"));
         Socket s = new Socket(this.address, this.port);
         this.output = new PrintWriter(s.getOutputStream(), true);
@@ -51,7 +50,7 @@ public class DBFacade {
     }
 
 
-    public List<QueryResolution> query(QueryList script) throws IOException {
+    public ScriptResolution query(QueryList script) throws IOException {
         return this.query(script.toString());
     }
 
@@ -72,8 +71,8 @@ public class DBFacade {
     }
 
 
-    private List<QueryResolution> pairQueriesToResolution(List<String> queries, List<String> resolutions){
-        List<QueryResolution> rtr = new ArrayList<>(resolutions.size());
+    private ScriptResolution pairQueriesToResolution(List<String> queries, List<String> resolutions){
+        ScriptResolution rtr = new ScriptResolution();
         // we assume that resolutions.size() <= queries.size()
         for(int i = 0; i < resolutions.size(); i++)
             rtr.add(new QueryResolution(queries.get(i), resolutions.get(i)));

@@ -31,6 +31,11 @@ public class StringMessageBodyWriter implements MessageBodyWriter<String> {
         return type == String.class && MediaType.APPLICATION_JSON_TYPE.equals(mediaType);
     }
 
+    // Il seguente script è stato modificato al fine di eliminare la serializzazione implicita di
+    // Jersey che agiva sulle stringhe quando venivano inviate delle stringhe già JSON, allora venivano
+    // aggiunti dei caratteri di escape. Il risultato è che se
+    // invio : (String) {"name":"foo","lastname":"bar"}
+    // ricevo: "{\"name\":\"foo\",\"lastname\":\"bar\"}"
     @Override
     public void writeTo(final String t, final Class<?> type, final Type genericType, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String, Object> httpHeaders, final OutputStream out) throws IOException, WebApplicationException {
         out.write(t.getBytes());
