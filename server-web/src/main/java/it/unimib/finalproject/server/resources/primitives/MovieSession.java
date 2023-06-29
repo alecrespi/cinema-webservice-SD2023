@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MovieSession {
-    private String id;
+    private int id;
     private int movie;
     private int startTime;
     private int endTime;
@@ -19,7 +19,7 @@ public class MovieSession {
         this.seats = new ArrayList<>();
     }
 
-    public MovieSession(String id, int movie, int startTime, int endTime, int room) {
+    public MovieSession(int id, int movie, int startTime, int endTime, int room) {
         this.id = id;
         this.movie = movie;
         this.startTime = startTime;
@@ -27,7 +27,7 @@ public class MovieSession {
         this.room = room;
     }
 
-    public MovieSession(String id, int movie, int startTime, int endTime, int room, List<Integer> seats) {
+    public MovieSession(int id, int movie, int startTime, int endTime, int room, List<Integer> seats) {
         this.id = id;
         this.movie = movie;
         this.startTime = startTime;
@@ -36,7 +36,7 @@ public class MovieSession {
         this.seats = seats;
     }
 
-    public MovieSession(String id, int movie, int startTime, int endTime, int room, Integer[] seats) {
+    public MovieSession(int id, int movie, int startTime, int endTime, int room, Integer[] seats) {
         this.id = id;
         this.movie = movie;
         this.startTime = startTime;
@@ -45,11 +45,11 @@ public class MovieSession {
         this.seats = Arrays.asList(seats);
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

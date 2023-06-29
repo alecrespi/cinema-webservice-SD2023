@@ -9,7 +9,6 @@ import it.unimib.finalproject.server.DB.QueryList;
 import it.unimib.finalproject.server.DB.QueryResolution;
 import it.unimib.finalproject.server.DB.ScriptResolution;
 import it.unimib.finalproject.server.resources.primitives.MovieSession;
-import it.unimib.finalproject.server.utils.MiscellaneousUtilities;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -24,33 +23,39 @@ public class MovieSessionResource {
         this.db = DBFacade.getInstance();
     }
 
-    // GET /moviesessions
+    // GET /moviesessions?movie={id}
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllMovieSessions() throws IOException {
+    public Response getAllMovieSessions(@QueryParam("movie") String movieid) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        // creating Script sequence
+        // getting all moviesessions
         QueryList script = new QueryList();
-        // append the first query
         script.add("GET moviesession:*");
         QueryResolution mss = this.db.query(script).get(0);
 
+        // checking if there was some error
         if(!mss.isError()){
-            ArrayNode arr = (ArrayNode) mapper.readTree(mss.message());
+
+            // now retrieving all seats information
+            ArrayNode filtered = filterByParameter("movie", movieid, mss.message());
             script = new QueryList();
-            for(JsonNode ms : arr)
+            // append a list of queries, every query targets a single moviesession
+            for(JsonNode ms : filtered)
                 script.add("GET moviesession:" + ms.get("id") + ":seats");
             ScriptResolution totalSeats = this.db.query(script);
+
+            // if there is an error, it's a db-side error
             if(totalSeats.containsError())
                 return Response
                         .status(Response.Status.INTERNAL_SERVER_ERROR)
                         .build();
 
+            // combines moviesession:* with moviesession:*:seats
             ArrayNode completeMSS = mapper.createArrayNode();
-            for (int i = 0; i < arr.size(); i++) {
+            for (int i = 0; i < filtered.size(); i++) {
                 completeMSS.add(
                         appendSeatsToMovieSession(
-                                mapper.writeValueAsString(arr.get(i)),
+                                mapper.writeValueAsString(filtered.get(i)),
                                 totalSeats.get(i).message()
                         )
                 );
@@ -58,7 +63,6 @@ public class MovieSessionResource {
             return Response
                     .ok(completeMSS)
                     .build();
-
         }else
             return Response
                     .ok(mss.message())
@@ -85,14 +89,26 @@ public class MovieSessionResource {
                     .build();
     }
 
-    private JsonNode appendSeatsToMovieSession(String moviesessionUnparsed, String seatsUnparsed) throws JsonProcessingException {
-        System.out.println(moviesessionUnparsed);
-        System.out.println(seatsUnparsed);
+    private JsonNode appendSeatsToMovieSession(String moviesessionUnparsed, String seatsUnparsed)
+            throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         MovieSession ms = mapper.readValue(moviesessionUnparsed, MovieSession.class);
         Integer[] seats = mapper.readValue(seatsUnparsed, Integer[].class);
         ms.appendSeats(seats);
         return mapper.valueToTree(ms);
+    }
+
+    private ArrayNode filterByParameter(String attribute, String param, String unparsed)
+            throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode parsed = (ArrayNode) mapper.readTree(unparsed);
+        ArrayNode filtered = mapper.createArrayNode();
+        for(JsonNode obj : parsed){
+            if(obj.get(attribute).asText().equals(param))
+                filtered.add(obj);
+        }
+        return filtered;
+
     }
 
 }
