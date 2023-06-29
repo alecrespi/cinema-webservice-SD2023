@@ -6,10 +6,12 @@
 /Users/alessandro/Projects/cinema-webservice-SD2023/server-web/src/main/java/it/unimib/finalproject/server/serverconfig/InboundRequestFilter.java
 /Users/alessandro/Projects/cinema-webservice-SD2023/server-web/src/main/java/it/unimib/finalproject/server/resources/MovieSessionResource.java
 /Users/alessandro/Projects/cinema-webservice-SD2023/server-web/src/main/java/it/unimib/finalproject/server/resources/BookingResource.java
+/Users/alessandro/Projects/cinema-webservice-SD2023/server-web/src/main/java/it/unimib/finalproject/server/serverconfig/JsonProcessingExceptionMapper.java
 /Users/alessandro/Projects/cinema-webservice-SD2023/server-web/src/main/java/it/unimib/finalproject/server/serverconfig/StringMessageBodyWriter.java
 /Users/alessandro/Projects/cinema-webservice-SD2023/server-web/src/main/java/it/unimib/finalproject/server/utils/MiscellaneousUtilities.java
 /Users/alessandro/Projects/cinema-webservice-SD2023/server-web/src/main/java/it/unimib/finalproject/server/DB/DBFacade.java
 /Users/alessandro/Projects/cinema-webservice-SD2023/server-web/src/main/java/it/unimib/finalproject/server/utils/AppSettings.java
+/Users/alessandro/Projects/cinema-webservice-SD2023/server-web/src/main/java/it/unimib/finalproject/server/resources/primitives/MovieSession.java
 /Users/alessandro/Projects/cinema-webservice-SD2023/server-web/src/main/java/it/unimib/finalproject/server/exceptions/DbNotRespondingException.java
 /Users/alessandro/Projects/cinema-webservice-SD2023/server-web/src/main/java/it/unimib/finalproject/server/resources/MovieResource.java
 /Users/alessandro/Projects/cinema-webservice-SD2023/server-web/src/main/java/it/unimib/finalproject/server/DB/QueryList.java

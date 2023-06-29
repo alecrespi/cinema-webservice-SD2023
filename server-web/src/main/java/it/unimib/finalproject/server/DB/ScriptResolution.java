@@ -25,9 +25,9 @@ public class ScriptResolution extends ArrayList<QueryResolution>{
         }
     }
 
-    public String error(){
+    public Integer error(){
         if(this.containsError())
-            return super.get(super.size() - 1).message();
+            return Integer.parseInt(super.get(super.size() - 1).message());
         else return null;
     }
 
