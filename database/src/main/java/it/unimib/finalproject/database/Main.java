@@ -21,8 +21,9 @@ public class Main {
         System.out.println("STARTING APP");
         // setup starting data
         System.out.println("Start setup routine...");
-        ArrayNode moviesessions = fetchJsonFromFile("./moviesessions.json");
-        setupMovieSessions(moviesessions);
+        setupMovieSessions(fetchJsonFromFile("./moviesessions.json"));
+        setupMovies(fetchJsonFromFile("./movies.json"));
+
         System.out.println("...all setup uploaded");
 
 
@@ -64,6 +65,12 @@ public class Main {
             GIGI.set("moviesession:" + ms.get("id").asText(), mapper.writeValueAsString(ms));
         }
         GIGI.set("moviesession:*",mapper.writeValueAsString(moviesessions));
+    }
+
+    public static void setupMovies(ArrayNode movies) throws JsonProcessingException {
+        for (JsonNode movie : movies)
+            GIGI.set("movie:" + movie.get("id").asText(), mapper.writeValueAsString(movie));
+        GIGI.set("movie:*", mapper.writeValueAsString(movies));
     }
 
 }

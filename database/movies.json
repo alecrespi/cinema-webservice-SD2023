@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "title": "The Shawshank Redemption",
+    "director": "Frank Darabont",
+    "plot": "Two imprisoned men bond over several years, finding solace and eventual redemption through acts of common decency.",
+    "coverImageLink": "https://image.tmdb.org/t/p/original/lyQBXzOQSuE59IsHyhrp0qIiPAz.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Interstellar",
+    "director": "Christopher Nolan",
+    "plot": "A team of explorers embarks on a voyage through a wormhole in space in an attempt to ensure humanity's survival.",
+    "coverImageLink": "https://image.tmdb.org/t/p/original/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Pulp Fiction",
+    "director": "Quentin Tarantino",
+    "plot": "The lives of two mob hitmen, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
+    "coverImageLink": "https://image.tmdb.org/t/p/original/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg"
+  },
+  {
+    "id": 4,
+    "title": "The Dark Knight",
+    "director": "Christopher Nolan",
+    "plot": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
+    "coverImageLink": "https://image.tmdb.org/t/p/original/qJ2tW6WMUDux911r6m7haRef0WH.jpg"
+  },
+  {
+    "id": 5,
+    "title": "Inception",
+    "director": "Christopher Nolan",
+    "plot": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
+    "coverImageLink": "https://image.tmdb.org/t/p/original/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg"
+  },
+  {
+    "id": 6,
+    "title": "The Matrix",
+    "director": "Lana Wachowski, Lilly Wachowski",
+    "plot": "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
+    "coverImageLink": "https://image.tmdb.org/t/p/original/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg"
+  }
+]
