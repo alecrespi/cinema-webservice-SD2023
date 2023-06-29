@@ -28,6 +28,7 @@ public class BookingResource {
         return MiscellaneousUtilities.forwardResponse(mss);
     }
 
+
     // GET /movies/{id}
     @Path("/{id}")
     @GET
