@@ -35,6 +35,7 @@
     </dependencyManagement>
 
     <dependencies>
+
         <!-- Grizzly: una libreria/server Web. Questo è il container per Jersey. -->
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>

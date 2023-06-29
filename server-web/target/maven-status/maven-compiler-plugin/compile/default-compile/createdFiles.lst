@@ -1,6 +1,8 @@
 it/unimib/finalproject/server/DB/DBFacade.class
 it/unimib/finalproject/server/serverconfig/StringMessageBodyWriter.class
 it/unimib/finalproject/server/DB/QueryList.class
+it/unimib/finalproject/server/resources/primitives/Booking.class
+it/unimib/finalproject/server/utils/JSONable.class
 it/unimib/finalproject/server/utils/MiscellaneousUtilities.class
 it/unimib/finalproject/server/serverconfig/OutboundResponseFilter.class
 it/unimib/finalproject/server/serverconfig/JsonProcessingExceptionMapper.class

@@ -2,12 +2,13 @@ package it.unimib.finalproject.server.resources.primitives;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.unimib.finalproject.server.utils.JSONable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MovieSession {
+public class MovieSession implements JSONable {
     private int id;
     private int movie;
     private int startTime;
@@ -113,6 +114,7 @@ public class MovieSession {
                 '}';
     }
 
+    @Override
     public String toJSON() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(this);

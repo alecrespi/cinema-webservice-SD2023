@@ -69,14 +69,11 @@ public class RequestHandler extends Thread{
             }catch(UnprocessableEntityException e){
                 response.add("422");
                 break;
-            }catch(KeyAlreadyBoundException e){
+            }catch(KeyAlreadyBoundException | UnreleasableKeysException e){
                 response.add("503");
                 break;
             }catch(UndefinedKeyException e){
                 response.add("404");
-                break;
-            }catch(UnreleasableKeysException e){
-                response.add("500 - tmp");
                 break;
             }catch(Exception e){
                 response.add("500");
