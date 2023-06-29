@@ -1,12 +1,42 @@
 package it.unimib.finalproject.server.resources;
 
+import it.unimib.finalproject.server.DB.DBFacade;
+import it.unimib.finalproject.server.DB.QueryList;
+import it.unimib.finalproject.server.DB.QueryResolution;
+import it.unimib.finalproject.server.utils.MiscellaneousUtilities;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
+import java.io.IOException;
 
 @Path("/bookings")
 public class BookingResource {
-    @GET
-    @Produces("text/plain")
-    public String hello() {
-        return "Hello, World!";
+    private final DBFacade db;
+
+    public BookingResource(){
+        this.db = DBFacade.getInstance();
     }
+
+    // GET /movies
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllMovies() throws IOException {
+        QueryList script = new QueryList();
+        script.add("GET movie:*");
+        QueryResolution mss = this.db.query(script).get(0);
+        return MiscellaneousUtilities.forwardResponse(mss);
+    }
+
+    // GET /movies/{id}
+    @Path("/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAtomicMovie(@PathParam("id") String id) throws IOException {
+        QueryList script = new QueryList();
+        script.add("GET movie:" + id);
+        QueryResolution mss = this.db.query(script).get(0);
+        return MiscellaneousUtilities.forwardResponse(mss);
+    }
+
 }

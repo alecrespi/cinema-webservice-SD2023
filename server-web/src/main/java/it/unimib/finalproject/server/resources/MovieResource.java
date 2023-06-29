@@ -39,6 +39,4 @@ public class MovieResource {
         return MiscellaneousUtilities.forwardResponse(mss);
     }
 
-
-
 }

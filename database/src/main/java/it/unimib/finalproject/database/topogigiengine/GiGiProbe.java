@@ -11,7 +11,7 @@ import java.util.List;
 
 // this class is for testing purposes only
 public class GiGiProbe {
-    public static final int PORT = 4000;
+    public static final int PORT = 3030;
     public static final String ADDRESS = "localhost";
     private static BufferedReader input;
     private static PrintWriter output;
