@@ -3,6 +3,7 @@ package it.unimib.finalproject.server;
 import it.unimib.finalproject.server.DB.DBFacade;
 import it.unimib.finalproject.server.DB.QueryList;
 import it.unimib.finalproject.server.DB.QueryResolution;
+import it.unimib.finalproject.server.utils.MiscellaneousUtilities;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -26,7 +27,7 @@ public class MovieSessionResource {
         // append the first query
         script.add("GET moviesession:*");
         QueryResolution mss = this.db.query(script).get(0);
-        return forwardResponse(mss);
+        return MiscellaneousUtilities.forwardResponse(mss);
     }
 
     // GET /moviesessions/{id}
@@ -37,19 +38,7 @@ public class MovieSessionResource {
         QueryList script = new QueryList();
         script.add("GET moviesession:" + id);
         QueryResolution mss = this.db.query(script).get(0);
-        return forwardResponse(mss);
+        return MiscellaneousUtilities.forwardResponse(mss);
     }
 
-
-    // this method is for better legibility
-    private Response forwardResponse(QueryResolution res){
-        if(!res.isError())
-            return Response
-                    .ok(res.message())
-                    .build();
-        else
-            return Response
-                    .status(res.error())
-                    .build();
-    }
 }
