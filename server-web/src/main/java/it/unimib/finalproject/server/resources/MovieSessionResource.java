@@ -1,4 +1,4 @@
-package it.unimib.finalproject.server;
+package it.unimib.finalproject.server.resources;
 
 import it.unimib.finalproject.server.DB.DBFacade;
 import it.unimib.finalproject.server.DB.QueryList;
@@ -10,35 +10,35 @@ import jakarta.ws.rs.core.Response;
 
 import java.io.IOException;
 
-@Path("/movies")
-public class MovieResource {
+@Path("/moviesessions")
+public class MovieSessionResource {
     private final DBFacade db;
 
-    public MovieResource(){
+    public MovieSessionResource(){
         this.db = DBFacade.getInstance();
     }
 
-    // GET /movies
+    // GET /moviesessions
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllMovies() throws IOException {
+    public Response getAllMovieSessions() throws IOException {
+        // creating Script sequence
         QueryList script = new QueryList();
-        script.add("GET movie:*");
+        // append the first query
+        script.add("GET moviesession:*");
         QueryResolution mss = this.db.query(script).get(0);
         return MiscellaneousUtilities.forwardResponse(mss);
     }
 
-    // GET /movies/{id}
+    // GET /moviesessions/{id}
     @Path("/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAtomicMovie(@PathParam("id") String id) throws IOException {
+    public Response getAtomicMovieSession(@PathParam("id") String id) throws IOException {
         QueryList script = new QueryList();
-        script.add("GET movie:" + id);
+        script.add("GET moviesession:" + id);
         QueryResolution mss = this.db.query(script).get(0);
         return MiscellaneousUtilities.forwardResponse(mss);
     }
-
-
 
 }

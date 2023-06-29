@@ -25,7 +25,7 @@ public class Main {
         // Crea una file di configurazione per una risorsa, in questo caso tutte
         // le classi del package dell'esercizio.
         String mainPackage = Main.class.getPackageName();
-        final var rc = new ResourceConfig().packages(mainPackage, mainPackage + ".filters");
+        final var rc = new ResourceConfig().packages(mainPackage, mainPackage + ".serverconfig", mainPackage + ".resources");
 
         // Crea e avvia un server HTTP che espone l'applicazione Jersey all'URL
         // predefinito.

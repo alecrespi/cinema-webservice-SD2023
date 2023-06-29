@@ -1,4 +1,4 @@
-package it.unimib.finalproject.server;
+package it.unimib.finalproject.server.serverconfig;
 
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;

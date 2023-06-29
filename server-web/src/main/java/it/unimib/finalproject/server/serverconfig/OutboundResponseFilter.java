@@ -1,4 +1,4 @@
-package it.unimib.finalproject.server.filters;
+package it.unimib.finalproject.server.serverconfig;
 
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerResponseContext;
