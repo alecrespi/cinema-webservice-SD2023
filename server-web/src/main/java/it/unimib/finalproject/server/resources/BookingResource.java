@@ -123,36 +123,28 @@ public class BookingResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteBooking(@PathParam("code") String code) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        try {
-            Booking oldBooking = getOldBooking(code);
-            if(oldBooking == null)
-                return Response.status(Response.Status.NOT_FOUND).build();
+        Booking oldBooking = getOldBooking(code);
+        if(oldBooking == null)
+            return Response.status(Response.Status.NOT_FOUND).build();
 
-            Integer[] seatsOfMs = getMovieSessionSeats(oldBooking.getMoviesession());
-            List<Integer> othersReservations = listDiff(Arrays.asList(seatsOfMs), oldBooking.getSeats());
+        Integer[] seatsOfMs = getMovieSessionSeats(oldBooking.getMoviesession());
+        List<Integer> othersReservations = listDiff(Arrays.asList(seatsOfMs), oldBooking.getSeats());
 
-            // prepare update queries
-            QueryList script = new QueryList();
-            String msSeatsKey = "moviesession:" + oldBooking.getMoviesession() + ":seats";
-            String bookingKey = "booking:" + code;
-            script.add("REMOVE " + bookingKey);
-            script.add("SET " + msSeatsKey + " " + mapper.writeValueAsString(othersReservations));
+        // prepare update queries
+        QueryList script = new QueryList();
+        String msSeatsKey = "moviesession:" + oldBooking.getMoviesession() + ":seats";
+        String bookingKey = "booking:" + code;
+        script.add("REMOVE " + bookingKey);
+        script.add("SET " + msSeatsKey + " " + mapper.writeValueAsString(othersReservations));
 
-            // launch update routine
-            ScriptResolution res = this.db.query(script);
-            if(res.containsError())
-                return Response.status(res.error()).build();
-            return Response
-                    .ok()
-                    .entity(oldBooking)
-                    .build();
-
-        }catch(JsonProcessingException e){
-            return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .build();
-        }
-//        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
+        // launch update routine
+        ScriptResolution res = this.db.query(script);
+        if(res.containsError())
+            return Response.status(res.error()).build();
+        return Response
+                .ok()
+                .entity(oldBooking)
+                .build();
     }
 
     private Integer[] getMovieSessionSeats(int mdId) throws IOException {
