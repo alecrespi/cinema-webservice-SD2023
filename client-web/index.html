@@ -12,37 +12,39 @@
         <h1>CINErisata</h1>
         <h2>La risata tutta italiana</h2>
     </header>
-<main>
-    <div class="movie">
-        <a href="movie.html" >
-            <img src="images/image1.jpg" alt="Movie 1">
-        </a>
-        <div class="movie-info">
-            <a href="movie.html" class="hidden-link">
-                <h2 class="movie-title">Natale a New York</h2>
-            </a>
-            <p class="movie-description">Regia di Carlo Vanzina PI PAPAPAPARA PA PAPA PARA PA.</p>
-        </div>
-    </div>
+<main id="movielist">
 
-    <div class="movie">
-        <img src="images/image2.jpg" alt="Movie 2">
-        <div class="movie-info">
-            <h2 class="movie-title">A Spasso nel Tempo</h2>
-            <p class="movie-description">Regia di Carlo Vanzina PI PAPAPAPARA PA PAPA PARA PA.</p>
-        </div>
-    </div>
-    <div class="movie">
-        <img src="images/image3.jpg" alt="Movie 3">
-        <div class="movie-info">
-            <h2 class="movie-title">Il ritorno del Monnezza</h2>
-            <p class="movie-description">Regia di Carlo Vanzina PI PAPAPAPARA PA PAPA PARA PA.</p>
-        </div>
-    </div>
-    <footer>
-        <!-- Add your footer content here -->
-        <p>&copy; 2023 CINErisata. All rights reserved.</p>
-    </footer>
 </main>
+<footer>
+    <!-- Add your footer content here -->
+    <p>&copy; 2023 CINErisata. All rights reserved.</p>
+</footer>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        fetch('http://localhost:8080/movies')
+            .then(function(response){
+                if(response.status <= 299){
+                    return response.json()
+                }
+            }).then(function(data){
+                console.log(data)
+                document.getElementById("movielist").innerHTML = data.map(function(movie){
+                    return `
+                        <div class="movie">
+                            <a href="movie.html" >
+                                <img src="${movie.coverImageLink}" alt="${movie.title}">
+                            </a>
+                            <div class="movie-info">
+                                <a href="./movie.html?movie=${movie.id}" class="hidden-link">
+                                    <h2 class="movie-title">${movie.title}</h2>
+                                </a>
+                                <p class="movie-description">${movie.plot}</p>
+                            </div>
+                        </div>
+                    `
+                }).join('')
+            })
+    })
+</script>
 </html>

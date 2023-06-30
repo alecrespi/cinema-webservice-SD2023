@@ -106,3 +106,19 @@ footer {
     padding: 0;
     margin: 0;
 }
+
+
+.moviesession_item{
+    cursor: pointer;
+    font-size: 14pt;
+    background-color: white;
+    border: 3px solid rgb(58, 58, 58);
+    border-radius: 5px;
+    padding: 20px 30px;
+    margin-bottom: 20px;
+}
+
+.moviesession_item:hover{
+    background-color: #d4a373;
+    color: #fff;
+}
