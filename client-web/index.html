@@ -10,7 +10,10 @@
 <body>
     <header>
         <h1>Maestoso Studios</h1>
-
+        <div class="search-bar">
+            <input type="text" id="input-booking" placeholder="Search booking...">
+            <button id="search-booking">Search</button>
+        </div>
     </header>
 <main id="movielist">
 
@@ -44,6 +47,19 @@
                         </div>
                     `
                 }).join('')
+            })
+    })
+
+    document.getElementById("search-booking").addEventListener('click',()=>{
+        let code = document.getElementById("input-booking").value
+        console.log(code)
+        if(code==null) return
+        fetch("http://localhost:8080/bookings/"+code)
+            .then((r)=>{
+                if(r.ok)
+                    window.location.replace("./bookingManagement.html")
+                else
+                    alert("booking not found")
             })
     })
 </script>
