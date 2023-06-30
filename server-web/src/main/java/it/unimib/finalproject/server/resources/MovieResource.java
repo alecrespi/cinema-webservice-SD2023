@@ -34,6 +34,7 @@ public class MovieResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAtomicMovie(@PathParam("id") String id) throws IOException {
         QueryList script = new QueryList();
+        System.out.println(id);
         script.add("GET movie:" + id);
         QueryResolution mss = this.db.query(script).get(0);
         return MiscellaneousUtilities.forwardResponse(mss);

@@ -38,7 +38,7 @@ public class DBFacade {
      * @param script a sequence of instructions specified in TopoGiGi implementation
      * @return the response string that could represent success or failure
      */
-    public ScriptResolution query(String script) throws IOException {
+    public synchronized ScriptResolution query(String script) throws IOException {
         List<String> queries = Arrays.asList(script.split("\n"));
         Socket s = new Socket(this.address, this.port);
         this.output = new PrintWriter(s.getOutputStream(), true);

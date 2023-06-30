@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Booking Management</title>
+    <link rel="stylesheet" href="styles/BMstyle.css">
+</head>
+
+<body>
+<h1>Your Booking</h1>
+
+<div id="bookingCodesContainer" class="center">
+    <h2>Your Booking Code</h2>
+    <ul id="bookingCodes">
+        <!-- Booking codes will be dynamically added here -->
+    </ul>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Movie</th>
+        <th>Date</th>
+        <th>Session</th>
+        <th>Seat</th>
+        <th>Action</th>
+
+    </tr>
+    </thead>
+    <tbody id="bookingTable">
+    <!-- Booking entries will be dynamically added here -->
+    </tbody>
+</table>
+
+<nav>
+    <!-- Add your navigation/menu here -->
+    <ul>
+        <a id="home-button" href="index.html">Home</a>
+    </ul>
+</nav>
+
+<script>
+    // Sample booking data (replace with your own data)
+    //qua bisogna chiedere al server i dati della prenotazione adesso sono dati di prov
+    const bookings = [
+        { movie: 'Natale a New York', date: '2023-07-01', session: 'A, 19:00', seat: 'A1, A2, A3' },
+    ];
+
+    // Function to populate the booking table with data
+    function populateBookingTable() {
+        const bookingTable = document.getElementById('bookingTable');
+
+        // Clear existing table rows
+        while (bookingTable.firstChild) {
+            bookingTable.firstChild.remove();
+        }
+
+        // Add new rows for each booking
+        bookings.forEach(booking => {
+            const row = document.createElement('tr');
+            const movieCell = document.createElement('td');
+            const dateCell = document.createElement('td');
+            const sessionCell = document.createElement('td');
+            const seatCell = document.createElement('td');
+            const actionCell = document.createElement('td');
+
+            movieCell.textContent = booking.movie;
+            dateCell.textContent = booking.date;
+            sessionCell.textContent = booking.session;
+            seatCell.textContent = booking.seat;
+            actionCell.innerHTML = '<button class="btn" onclick="deleteBooking(this)">Delete</button>';
+            //Qua va aggiunta una funzione che comunica al server che deve liberare il posto che
+            // sono stati precedentemente prenotati  se si clicca il Delete
+
+            row.appendChild(movieCell);
+            row.appendChild(dateCell);
+            row.appendChild(sessionCell);
+            row.appendChild(seatCell);
+            row.appendChild(actionCell);
+
+            bookingTable.appendChild(row);
+        });
+    }
+
+    // Function to delete a booking
+    function deleteBooking(button) {
+        const row = button.parentNode.parentNode;
+        row.remove();
+    }
+
+    // Populate the table when the page loads
+    document.addEventListener('DOMContentLoaded', populateBookingTable);
+
+
+
+</script>
+</body>
+</html>

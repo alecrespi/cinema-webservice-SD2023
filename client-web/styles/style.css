@@ -98,6 +98,11 @@ h1 {
     border: 1px solid #d4a373;
 }
 
+.seat.reserved {
+    background-color: #5f5f5f;
+    border: 1px solid #5f5f5f;
+}
+
 .button-container {
     text-align: center;
     margin-top: 20px;

@@ -27,7 +27,7 @@ public class MovieSessionResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllMovieSessions(@QueryParam("movie") String movieid) throws IOException {
-        if(movieid == null)
+        if(movieid == null || movieid.equals(""))
             return Response.status(Response.Status.BAD_REQUEST).build();
         ObjectMapper mapper = new ObjectMapper();
         // getting all moviesessions

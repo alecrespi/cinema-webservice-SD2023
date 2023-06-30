@@ -1,13 +1,118 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Booking Management</title>
+    <title>Movie Session Booking</title>
+    <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/BMstyle.css">
-</head>
 
+    <script>
+        var desiredSeats = []
+        // JavaScript logic for seat selection
+
+        const currentUrl = window.location.search;
+        const urlParams = new URLSearchParams(currentUrl);
+        const code = urlParams.get('code');
+        var msId = null;
+
+        function loadAlreadyReserved(){
+                fetch('http://localhost:8080/moviesessions/' + msId)
+                    .then(function(response) {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error('Error: ' + response.status);
+                        }
+                    }).then(function(ms){
+                        for(let seat of ms.seats)
+                            if(!desiredSeats.includes(seat)) 
+                                document.getElementById("seat-" + seat).classList.add("reserved")
+                    })
+            }
+
+        fetch("http://localhost:8080/bookings/"+code)
+            .then(function(response) {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error: ' + response.status);
+                    }
+            }).then(function(booking){
+                console.log(booking);
+                msId = booking.moviesession;
+                desiredSeats = booking.seats;
+                for(let seat of booking.seats)
+                    document.getElementById("seat-" + seat).classList.add("selected")
+                loadAlreadyReserved()
+            })
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const totalSeats = 200;
+            const rows = Math.ceil(Math.sqrt(totalSeats));
+            const cols = Math.ceil(totalSeats / rows);
+            const seatContainer = document.querySelector('.seat-container');
+
+            for (let i = 0; i < totalSeats; i++) {
+                const seat = document.createElement('div');
+                seat.className = 'seat';
+                seat.id = "seat-" + (i + 1);
+                const seatNumber = document.createElement('span');
+                seatNumber.className = 'seat-number';
+                seatNumber.innerText = i + 1;
+                seat.appendChild(seatNumber);
+                seatContainer.appendChild(seat);
+            }
+
+            const seats = document.querySelectorAll('.seat');
+            seats.forEach((seat) => {
+                seat.addEventListener('click', (e) => {
+                    if(e.target.classList.contains('reserved'))
+                        return;
+                    if(e.target.classList.contains('selected')){
+                        desiredSeats = desiredSeats.filter((seat) => ("seat-"+seat) != e.target.id )
+                        e.target.classList.remove('selected');
+                    }else{
+                        desiredSeats.push(parseInt(e.target.id.split("-")[1]))
+                        e.target.classList.add('selected');
+                    }
+                });
+            });
+            
+        });
+        // JavaScript function for booking the selected seats
+        function bookSeats() {
+                console.log(desiredSeats);
+                if(!desiredSeats || desiredSeats.length == 0){
+                    alert("Please select at least one seat!")
+                    return
+                }
+                fetch("http://localhost:8080/bookings", {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        code: code,
+                        seats: desiredSeats,
+                        moviesession: msId
+                    })
+                }).then(function(response) {
+                    if (response.status <= 299) {
+                        alert("Seats booked successfully!")
+                        return
+                    } else if(response.status == 409){
+                        alert("Seats already booked! Please select other seats.")
+                        return
+                    }
+                }).catch(function(error){
+                    alert("Error: " + error)
+                })
+            }
+
+
+    </script>
+
+</head>
 <body>
-<h1>Your Booking</h1>
 
 <div id="bookingCodesContainer" class="center">
     <h2>Your Booking Code</h2>
@@ -18,19 +123,33 @@
 
 <table>
     <thead>
-    <tr>
-        <th>Movie</th>
-        <th>Date</th>
-        <th>Session</th>
-        <th>Seat</th>
-        <th>Action</th>
-
-    </tr>
+        <tr>
+            <th>Movie</th>
+            <th>Date</th>
+            <th>Session</th>
+            <th>Seat</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            
+        </tr>
     </thead>
     <tbody id="bookingTable">
     <!-- Booking entries will be dynamically added here -->
     </tbody>
 </table>
+
+<main>
+    <div class="screen"></div>
+
+    <div class="seat-container">
+        <!-- qui ci sono i posti -->
+    </div>
+
+    <div class="button-container">
+        <button onclick="bookSeats()">Book</button>
+    </div>
+</main>
 
 <nav>
     <!-- Add your navigation/menu here -->
@@ -39,60 +158,10 @@
     </ul>
 </nav>
 
-<script>
-    // Sample booking data (replace with your own data)
-    //qua bisogna chiedere al server i dati della prenotazione adesso sono dati di prov
-    const bookings = [
-        { movie: 'Natale a New York', date: '2023-07-01', session: 'A, 19:00', seat: 'A1, A2, A3' },
-    ];
+<footer>
+    <!-- Add your footer content here -->
+    <p>&copy; 2023 CINErisata. All rights reserved.</p>
+</footer>
 
-    // Function to populate the booking table with data
-    function populateBookingTable() {
-        const bookingTable = document.getElementById('bookingTable');
-
-        // Clear existing table rows
-        while (bookingTable.firstChild) {
-            bookingTable.firstChild.remove();
-        }
-
-        // Add new rows for each booking
-        bookings.forEach(booking => {
-            const row = document.createElement('tr');
-            const movieCell = document.createElement('td');
-            const dateCell = document.createElement('td');
-            const sessionCell = document.createElement('td');
-            const seatCell = document.createElement('td');
-            const actionCell = document.createElement('td');
-
-            movieCell.textContent = booking.movie;
-            dateCell.textContent = booking.date;
-            sessionCell.textContent = booking.session;
-            seatCell.textContent = booking.seat;
-            actionCell.innerHTML = '<button class="btn" onclick="deleteBooking(this)">Delete</button>';
-            //Qua va aggiunta una funzione che comunica al server che deve liberare il posto che
-            // sono stati precedentemente prenotati  se si clicca il Delete
-
-            row.appendChild(movieCell);
-            row.appendChild(dateCell);
-            row.appendChild(sessionCell);
-            row.appendChild(seatCell);
-            row.appendChild(actionCell);
-
-            bookingTable.appendChild(row);
-        });
-    }
-
-    // Function to delete a booking
-    function deleteBooking(button) {
-        const row = button.parentNode.parentNode;
-        row.remove();
-    }
-
-    // Populate the table when the page loads
-    document.addEventListener('DOMContentLoaded', populateBookingTable);
-
-
-
-</script>
 </body>
 </html>

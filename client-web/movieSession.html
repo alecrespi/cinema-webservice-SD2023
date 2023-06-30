@@ -5,7 +5,13 @@
     <link rel="stylesheet" href="styles/style.css">
 
     <script>
+        var desiredSeats = []
         // JavaScript logic for seat selection
+
+        const currentUrl = window.location.search;
+            const urlParams = new URLSearchParams(currentUrl);
+            const msId = urlParams.get('session');
+
         window.addEventListener('DOMContentLoaded', (event) => {
             const totalSeats = 200;
             const rows = Math.ceil(Math.sqrt(totalSeats));
@@ -15,6 +21,7 @@
             for (let i = 0; i < totalSeats; i++) {
                 const seat = document.createElement('div');
                 seat.className = 'seat';
+                seat.id = "seat-" + (i + 1);
                 const seatNumber = document.createElement('span');
                 seatNumber.className = 'seat-number';
                 seatNumber.innerText = i + 1;
@@ -24,32 +31,64 @@
 
             const seats = document.querySelectorAll('.seat');
             seats.forEach((seat) => {
-                seat.addEventListener('click', () => {
-                    seat.classList.toggle('selected');
+                seat.addEventListener('click', (e) => {
+                    if(e.target.classList.contains('reserved'))
+                        return;
+                    if(e.target.classList.contains('selected')){
+                        desiredSeats = desiredSeats.filter((seat) => ("seat-"+seat) != e.target.id )
+                        e.target.classList.remove('selected');
+                    }else{
+                        desiredSeats.push(parseInt(e.target.id.split("-")[1]))
+                        e.target.classList.add('selected');
+                    }
                 });
             });
-        });
 
+            fetch('http://localhost:8080/moviesessions/' + msId)
+                .then(function(response) {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error: ' + response.status);
+                    }
+                }).then(function(ms){
+                    for(let seat of ms.seats)
+                        document.getElementById("seat-" + seat).classList.add("reserved")
+                })
+
+            
+        });
         // JavaScript function for booking the selected seats
         function bookSeats() {
-            const selectedSeats = document.querySelectorAll('.seat.selected');
-            if (selectedSeats.length === 0) {
-                alert('Please select at least one seat!');
-            } else {
-                const seatNumbers = Array.from(selectedSeats).map((seat) => seat.querySelector('.seat-number').innerText);
-                const message = `You have booked seats: ${seatNumbers.join(', ')}`;
-                alert(message);
-
-                const viewBookingButton = document.getElementById('viewBookingButton');
-                viewBookingButton.classList.remove('hidden');
-
-                //booking logic here
+                console.log(desiredSeats);
+                if(!desiredSeats || desiredSeats.length == 0){
+                    alert("Please select at least one seat!")
+                    return
+                }
+                fetch("http://localhost:8080/bookings", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        seats: desiredSeats,
+                        moviesession: msId
+                    })
+                }).then(function(response) {
+                    if (response.status <= 299) {
+                        return response.json();
+                    } else if(response.status == 409){
+                        alert("Seats already booked! Please select other seats.")
+                        return
+                    }
+                }).then(function(booking){
+                    alert("You have booked seats: " + booking.seats.join(", "))
+                    window.location.href = "./bookingManagement.html?code=" + booking.code
+                }).catch(function(error){
+                    alert("Error: " + error)
+                })
             }
-        }
 
-        function openBookingPage() {
-            window.open("bookingManagement.html", "_blank");
-        }
 
     </script>
 
@@ -62,11 +101,12 @@
 <main>
     <div class="screen"></div>
 
-    <div class="seat-container"></div>
+    <div class="seat-container">
+        <!-- qui ci sono i posti -->
+    </div>
 
     <div class="button-container">
         <button onclick="bookSeats()">Book</button>
-        <button id="viewBookingButton" class="hidden" onclick="openBookingPage()">View Booking</button>
     </div>
 </main>
 

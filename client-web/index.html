@@ -32,7 +32,7 @@
                 document.getElementById("movielist").innerHTML = data.map(function(movie){
                     return `
                         <div class="movie">
-                            <a href="movie.html" >
+                            <a href="./movie.html?movie=${movie.id}" >
                                 <img src="${movie.coverImageLink}" alt="${movie.title}">
                             </a>
                             <div class="movie-info">

@@ -17,42 +17,11 @@
 </nav>
 <main>
     <section id="film-details">
-        <!-- Replace the film title with the smaller image of the film -->
-        <img src="images/image1.jpg" alt="image" style="width: 350px; height: auto;">
-        <p>Description of the film...</p>
-        <p>Director: John Doe</p>
-        <p>Genre: Action</p>
-        <!-- Add other film details as needed -->
+        
     </section>
 
+    <h2>Choose a Session</h2>
     <section id="session-selection">
-        <!-- Add the movie session selection here -->
-        <h2>Choose a Session</h2>
-        <form>
-            <div>
-                <button class="moviesession_item">Room ; giorno ; inizio - fine</button>
-            </div>
-            
-            <div>
-                <button class="moviesession_item">Room ; giorno ; inizio - fine</button>
-            </div>
-            <div>
-                <button class="moviesession_item">Room ; giorno ; inizio - fine</button>
-            </div>
-            <div>
-                <button class="moviesession_item">Room ; giorno ; inizio - fine</button>
-            </div>
-            <div>
-                <button class="moviesession_item">Room ; giorno ; inizio - fine</button>
-            </div>
-            <div>
-                <button class="moviesession_item">Room ; giorno ; inizio - fine</button>
-            </div>
-            <div>
-                <button class="moviesession_item">Room ; giorno ; inizio - fine</button>
-            </div>
-            <!-- Add more session options as needed -->
-        </form>
     </section>
 </main>
 <footer>
@@ -60,7 +29,63 @@
     <p>&copy; 2023 CINErisata, by AleCre && loweegee</p>
 </footer>
 <script>
-    // puta
+
+
+document.addEventListener('DOMContentLoaded', function(){
+
+    const currentUrl = window.location.search;
+    const urlParams = new URLSearchParams(currentUrl);
+    const movieId = urlParams.get('movie');
+
+    fetch(`http://localhost:8080/moviesessions?movie=` + movieId)
+        .then(function(response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Error: ' + response.status);
+            }
+        })
+        .then(function(data) {
+            document.getElementById("session-selection").innerHTML = data.map(function(session){
+                let start = new Date(session.startTime*1000)
+                let end = new Date(session.endTime*1000)
+                const startDateFormatted = start.toLocaleDateString('it-IT', { dateStyle: 'short'});
+                const startTimeFormatted = start.toLocaleTimeString('it-IT', { timeStyle: 'short'});
+                const endTimeFormatted = end.toLocaleTimeString('it-IT', { timeStyle: 'short'});
+                return `
+                    <div>
+                        <a href="./moviesession.html?session=${session.id}">
+                            <button class="moviesession_item"> Sala ${session.room} | Giorno ${startDateFormatted} |  ${startTimeFormatted} - ${endTimeFormatted}</button>
+                        </a>
+                    </div>
+                `
+            }).join('')
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+
+    fetch(`http://localhost:8080/movies/${movieId}`)
+        .then(function(response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Error: ' + response.status);
+            }
+        }).then(function(movie) {
+            // non funziona la cover e non so perche'
+            document.getElementById("film-details").innerHTML = `
+                <img src="${movie.coverImageLink}}" alt="${movie.title}" style="width: 350px; height: auto;">
+                <p>Director: ${movie.director}</p>
+                <p>Plot:${movie.plot}</p>
+            `
+        }).catch(function(error) {
+            console.log(error);
+        });
+
+
+})
+
 </script>
 </body>
 
