@@ -7,7 +7,7 @@
 <body>
 <header>
     <!-- Add your header content here -->
-    <h1>Film Title</h1>
+    <h1>Maestoso Studios</h1>
 </header>
 <nav>
     <!-- Add your navigation/menu here -->
@@ -31,60 +31,59 @@
 <script>
 
 
-document.addEventListener('DOMContentLoaded', function(){
+    document.addEventListener('DOMContentLoaded', function(){
 
-    const currentUrl = window.location.search;
-    const urlParams = new URLSearchParams(currentUrl);
-    const movieId = urlParams.get('movie');
+        const currentUrl = window.location.search;
+        const urlParams = new URLSearchParams(currentUrl);
+        const movieId = urlParams.get('movie');
 
-    fetch(`http://localhost:8080/moviesessions?movie=` + movieId)
-        .then(function(response) {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Error: ' + response.status);
-            }
-        })
-        .then(function(data) {
-            document.getElementById("session-selection").innerHTML = data.map(function(session){
-                let start = new Date(session.startTime*1000)
-                let end = new Date(session.endTime*1000)
-                const startDateFormatted = start.toLocaleDateString('it-IT', { dateStyle: 'short'});
-                const startTimeFormatted = start.toLocaleTimeString('it-IT', { timeStyle: 'short'});
-                const endTimeFormatted = end.toLocaleTimeString('it-IT', { timeStyle: 'short'});
-                return `
+        fetch(`http://localhost:8080/moviesessions?movie=` + movieId)
+            .then(function(response) {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Error: ' + response.status);
+                }
+            })
+            .then(function(data) {
+                document.getElementById("session-selection").innerHTML = data.map(function(session){
+                    let start = new Date(session.startTime*1000)
+                    let end = new Date(session.endTime*1000)
+                    const startDateFormatted = start.toLocaleDateString('it-IT', { dateStyle: 'short'});
+                    const startTimeFormatted = start.toLocaleTimeString('it-IT', { timeStyle: 'short'});
+                    const endTimeFormatted = end.toLocaleTimeString('it-IT', { timeStyle: 'short'});
+                    return `
                     <div>
                         <a href="./moviesession.html?session=${session.id}">
                             <button class="moviesession_item"> Sala ${session.room} | Giorno ${startDateFormatted} |  ${startTimeFormatted} - ${endTimeFormatted}</button>
                         </a>
                     </div>
                 `
-            }).join('')
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
+                }).join('')
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
 
-    fetch(`http://localhost:8080/movies/${movieId}`)
-        .then(function(response) {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Error: ' + response.status);
-            }
-        }).then(function(movie) {
-            // non funziona la cover e non so perche'
+        fetch(`http://localhost:8080/movies/${movieId}`)
+            .then(function(response) {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Error: ' + response.status);
+                }
+            }).then(function(movie) {
             document.getElementById("film-details").innerHTML = `
-                <img src="${movie.coverImageLink}}" alt="${movie.title}" style="width: 350px; height: auto;">
+                <img src="${movie.coverImageLink}" alt="${movie.title}" style="width: 350px; height: auto;">
+                <h1>${movie.title}</h1>
                 <p>Director: ${movie.director}</p>
-                <p>Plot:${movie.plot}</p>
+                <p>Plot: ${movie.plot}</p>
             `
         }).catch(function(error) {
             console.log(error);
         });
+    })
 
-
-})
 
 </script>
 </body>
