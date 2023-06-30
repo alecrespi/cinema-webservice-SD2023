@@ -1,8 +1,8 @@
 # Collaborators
 
-879222 - Ferrara Luigi
+879222 - Ferrara Luigi 
 
-879186 - Crespi Alessandro
+879186 - Crespi Alessandro 
 
 # Sistema di Gestione delle Prenotazioni al Cinema
 
@@ -20,21 +20,15 @@ Questo repository di GitHub contiene un progetto universitario sviluppato come p
 
 La connessione tra il "server DB" e il server REST viene stabilita utilizzando un protocollo TCP/IP personalizzato. Questo protocollo è progettato per facilitare una trasformazione ed uno scambio efficiente dei dati tra i due server, consentendo una comunicazione senza problemi. Il Protocollo è basato su REDIS (https://redis.io)
 
-## Obiettivo del Progetto
+## Compilazione ed esecuzione
 
-L'obiettivo principale di questo progetto è sviluppare un sistema di gestione delle prenotazioni al cinema semplice ma funzionale. Gli utenti possono sfogliare i film disponibili, controllare gli orari, selezionare i posti e effettuare prenotazioni. Il progetto mira a dimostrare conoscenza e comprensione dei sistemi distribuiti, nonché competenza nello sviluppo web, nella programmazione lato server e nei protocolli di rete personalizzati.
+Il server Web e il database sono dei progetti Java che utilizano Maven per gestire le dipendenze, la compilazione e l'esecuzione. È necessario eseguire in seguente i seguenti obiettivi per compilare ed eseguire: `clean`, che rimuove la cartella `target`, `compile` per compilare e `exec:java` per avviare il
+componente.
 
-## Informazioni sul Repository
+I tre obiettivi possono essere eseguiti insieme in una sola riga di comando da terminale tramite `./mvnw clean compile exec:java` per Linux/Mac e `mvnw.cmd clean compile exec:java` per Windows. L'unico requisito è un'istallazione di Java (almeno la versione 11), verificando che la variabile `JAVA_PATH` sia correttamente configurata.
 
-Questo repository funge da base di codice completo per l'intero progetto. Fornisce una base per ulteriori miglioramenti e aggiornamenti, consentendo agli sviluppatori e ai contributori di ampliare la funzionalità e la scalabilità del sistema di gestione delle prenotazioni al cinema.
+Il client Web è composto da più file HTML, tra i quali: `index.html`,`movie.html`,`movieSession.html`,`bookingManagement.html`. È importante disabilitare CORS, come mostrato nel laboratorio 8 su JavaScript (AJAX).
 
-**Scadenza**: 30 giugno 2023
+## Porte e indirizzi
 
-**Nota**: Poiché questo progetto è ancora in corso e il codice è in fase di sviluppo attivo, si prega di considerare questo repository come un lavoro in corso.
-
-**Licenza**: Dopo la scadenza del periodo, il progetto verrà chiuso e distribuito secondo i termini della licenza Apache 2.0.
-
-**Valutazione**: --non ancora
-
- valutato--
-
+Il server Web si pone in ascolto all'indirizzo `localhost` alla porta `8080`. Il database si pone in ascolto allo stesso indirizzo del server Web ma alla porta `3030`.
