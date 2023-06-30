@@ -4,34 +4,37 @@
 
 879186 - Crespi Alessandro
 
-# Cinema Booking Management System
+# Sistema di Gestione delle Prenotazioni al Cinema
 
-This GitHub repository contains a university project developed as part of the **Distributed Systems** course. The project focuses on building a web service app for a Cinema Booking Management System. It consists of a frontend HTML/Javascript page, a Java Jakarta EE servlet REST server, and a secondary server layer that acts as a data store in a non-persistent manner using an in-memory JSON object.
+Questo repository di GitHub contiene un progetto universitario sviluppato come parte del corso di Sistemi Distribuiti. Il progetto si concentra sulla realizzazione di un'applicazione di servizio web per un Sistema di Gestione delle Prenotazioni al Cinema. È composto da una pagina frontend in HTML/Javascript, un server REST servlet Java Jersey e uno strato di server secondario che funge da archivio dati in modo non persistente basato su REDIS.
 
-## Components
+## Componenti
 
-1. **Frontend:** The frontend of the web service is built using HTML and Javascript. It provides a user-friendly interface for customers to browse movies, view showtimes, and make bookings.
+**Frontend**: Il frontend del servizio web è realizzato utilizzando HTML e Javascript. Fornisce un'interfaccia utente intuitiva per consentire ai clienti di sfogliare i film, visualizzare gli orari e effettuare prenotazioni.
 
-2. **Java Jakarta EE JAX_RS REST Server:** This server acts as the core backend of the web service. It handles incoming HTTP requests from the frontend and performs the necessary operations according to the REST architecture to manage cinema bookings. The server is built using the Jakarta EE JAX-RS framework, ensuring scalability and reliability.
+**Server REST Java Jersey**: Questo server funge da backend principale del servizio web. Gestisce le richieste HTTP in ingresso provenienti dal frontend e esegue le operazioni necessarie secondo l'architettura REST per gestire le prenotazioni al cinema. Il server è costruito utilizzando il framework Jakarta EE JAX-RS, garantendo scalabilità e affidabilità.
 
-3. **Database Server Layer:** This layer acts as a Database by storing data in an in-memory JSON object. Although the data is not stored in a traditional database management system, it serves the purpose of holding cinema-related information, such as movie schedules, seating availability, and customer bookings.
+**Server Database**: Questo strato funge da database general-porpuses memorizzando i dati ponendo particolare attenzione sulla sincronizzazione. Sebbene i dati non siano conservati in un sistema di gestione di database tradizionale, l'oggetto JSON svolge la funzione di contenere informazioni relative al cinema, come gli orari dei film, la disponibilità dei posti e le prenotazioni dei clienti.
 
-### Communication among Backend Components
+## Comunicazione tra i Componenti del Backend
 
-**Custom TCP/IP Protocol:** The connection between the "DB server" and the REST server is established using a custom TCP/IP protocol. This protocol is designed to facilitate efficient data transformation and exchange between the two servers, enabling seamless communication.
+La connessione tra il "server DB" e il server REST viene stabilita utilizzando un protocollo TCP/IP personalizzato. Questo protocollo è progettato per facilitare una trasformazione ed uno scambio efficiente dei dati tra i due server, consentendo una comunicazione senza problemi. Il Protocollo è basato su REDIS (https://redis.io)
 
-## Project Goal
+## Obiettivo del Progetto
 
-The primary goal of this project is to develop a simple yet functional cinema booking management system. Users can browse available movies, check showtimes, select seats, and make bookings. The project aims to demonstrate knowledge and understanding of distributed systems, as well as showcase proficiency in web development, server-side programming, and custom network protocols.
+L'obiettivo principale di questo progetto è sviluppare un sistema di gestione delle prenotazioni al cinema semplice ma funzionale. Gli utenti possono sfogliare i film disponibili, controllare gli orari, selezionare i posti e effettuare prenotazioni. Il progetto mira a dimostrare conoscenza e comprensione dei sistemi distribuiti, nonché competenza nello sviluppo web, nella programmazione lato server e nei protocolli di rete personalizzati.
 
-## Repository Information
+## Informazioni sul Repository
 
-This repository serves as a comprehensive codebase for the entire project. It provides a foundation for further enhancements and improvements, allowing developers and contributors to expand the functionality and scalability of the cinema booking management system.
+Questo repository funge da base di codice completo per l'intero progetto. Fornisce una base per ulteriori miglioramenti e aggiornamenti, consentendo agli sviluppatori e ai contributori di ampliare la funzionalità e la scalabilità del sistema di gestione delle prenotazioni al cinema.
 
-**Deadline:** 31th June 2023
+**Scadenza**: 30 giugno 2023
 
-**Note:** As this project is still ongoing and the codebase is under active development, please consider this repository as work in progress.
+**Nota**: Poiché questo progetto è ancora in corso e il codice è in fase di sviluppo attivo, si prega di considerare questo repository come un lavoro in corso.
 
-**License:** After the expiration of the deadline period, the project will be closed and distributed under the terms of the Apache 2.0 license
+**Licenza**: Dopo la scadenza del periodo, il progetto verrà chiuso e distribuito secondo i termini della licenza Apache 2.0.
 
-**Valuation:** --not valuated yet--
+**Valutazione**: --non ancora
+
+ valutato--
+
