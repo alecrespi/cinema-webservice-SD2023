@@ -72,3 +72,15 @@ tr:nth-child(even) {
 #home-button:hover {
     background-color: #241715;
 }
+
+h2 {
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 10px;
+    background-color: #d4a373;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}

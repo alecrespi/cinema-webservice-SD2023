@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Booking Management</title>
     <link rel="stylesheet" href="styles/BMstyle.css">
 </head>
+
 <body>
 <h1>Your Booking</h1>
+
+<div id="bookingCodesContainer" class="center">
+    <h2>Your Booking Code</h2>
+    <ul id="bookingCodes">
+        <!-- Booking codes will be dynamically added here -->
+    </ul>
+</div>
 
 <table>
     <thead>
     <tr>
         <th>Movie</th>
         <th>Date</th>
-        <th>Time</th>
+        <th>Session</th>
         <th>Seat</th>
         <th>Action</th>
+
     </tr>
     </thead>
     <tbody id="bookingTable">
@@ -33,9 +43,7 @@
     // Sample booking data (replace with your own data)
     //qua bisogna chiedere al server i dati della prenotazione adesso sono dati di prov
     const bookings = [
-        { movie: 'Avengers: Endgame', date: '2023-07-01', time: '19:00', seat: 'A1' },
-        { movie: 'Black Panther', date: '2023-07-02', time: '15:30', seat: 'B3' },
-        { movie: 'Inception', date: '2023-07-03', time: '21:15', seat: 'C5' }
+        { movie: 'Natale a New York', date: '2023-07-01', session: 'A, 19:00', seat: 'A1, A2, A3' },
     ];
 
     // Function to populate the booking table with data
@@ -52,13 +60,13 @@
             const row = document.createElement('tr');
             const movieCell = document.createElement('td');
             const dateCell = document.createElement('td');
-            const timeCell = document.createElement('td');
+            const sessionCell = document.createElement('td');
             const seatCell = document.createElement('td');
             const actionCell = document.createElement('td');
 
             movieCell.textContent = booking.movie;
             dateCell.textContent = booking.date;
-            timeCell.textContent = booking.time;
+            sessionCell.textContent = booking.session;
             seatCell.textContent = booking.seat;
             actionCell.innerHTML = '<button class="btn" onclick="deleteBooking(this)">Delete</button>';
             //Qua va aggiunta una funzione che comunica al server che deve liberare il posto che
@@ -66,7 +74,7 @@
 
             row.appendChild(movieCell);
             row.appendChild(dateCell);
-            row.appendChild(timeCell);
+            row.appendChild(sessionCell);
             row.appendChild(seatCell);
             row.appendChild(actionCell);
 
