@@ -37,7 +37,7 @@ Se la richiesta viene elaborata con successo, si restituisce una risposta con il
 
 # BIND 
 
-Il comando BIND viene utilizzato per associare una o più chiavi a un'entità specifica nel database. Per inviare una richiesta BIND al database, il server deve inviare una stringa con i seguenti campi:
+Il comando BIND viene utilizzato per legare una chiave di scrittura alle altre chiavi. Per inviare una richiesta BIND al database, il server deve inviare una stringa con i seguenti campi:
 
 "command": "BIND"
 "keys": un array di chiavi da associare
@@ -46,7 +46,7 @@ Se la richiesta viene elaborata con successo, si restituisce una risposta con il
 
 # RELEASE
 
-Il comando RELEASE viene utilizzato per disassociare una o più chiavi da un'entità nel database. Per inviare una richiesta RELEASE al database, il server deve inviare una stringa con i seguenti campi:
+Il comando RELEASE viene utilizzato per rilasciare il lock di scrittura sulle chiavi specificate. Per inviare una richiesta RELEASE al database, il server deve inviare una stringa con i seguenti campi:
 
 "command": "RELEASE"
 "keys": un array di chiavi da disassociare
