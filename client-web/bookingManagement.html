@@ -130,6 +130,19 @@
                             <th>Codice ${booking.code}</th>
                     `
                 });
+        
+        function deleteBooking(){
+            fetch("http://localhost:8080/bookings/"+code, {
+                method: 'DELETE'
+            }).then(function(response) {
+                if (response.status <= 299) {
+                    alert("Seats deleted successfully!")
+                    window.location.replace('./index.html')
+                } 
+            }).catch(function(error){
+                alert("Error: " + error)
+            })
+        }
 
 
 
@@ -168,6 +181,7 @@
 
     <div class="button-container">
         <button onclick="bookSeats()">Book</button>
+        <button onclick="deleteBooking()">Delete</button>
     </div>
 </main>
 

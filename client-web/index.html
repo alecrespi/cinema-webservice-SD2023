@@ -53,11 +53,11 @@
     document.getElementById("search-booking").addEventListener('click',()=>{
         let code = document.getElementById("input-booking").value
         console.log(code)
-        if(code==null) return
+        if(code == null) return
         fetch("http://localhost:8080/bookings/"+code)
             .then((r)=>{
                 if(r.ok)
-                    window.location.replace("./bookingManagement.html")
+                    window.location.replace("./bookingManagement.html?code="+code)
                 else
                     alert("booking not found")
             })
