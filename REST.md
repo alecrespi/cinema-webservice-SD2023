@@ -1,4 +1,4 @@
-# Cinema WebService RESTful 2022 - 2023
+# Cinema WebService RESTful 2023
 
 Documentazione delle API REST
 
