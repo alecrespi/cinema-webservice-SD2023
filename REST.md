@@ -1,104 +1,143 @@
-# Cinema WebService RESTful 
+# Cinema WebService RESTful 2022 - 2023
 
+Documentazione delle API REST
 
-# ENDPOINT
 **Considerazioni:**
 Ogni endpoint che causa uno status code di fallimento possiede nel proprio responso un oggetto JSON {"message":*status message*}
 
+## DOCUMENTAZIONE:
 
-Gli endpoint sono descritti con la seguente configurazione:
+## `/movies`
 
-METHOD URL 
+### GET
 
-DESCRIPTION
+**Descrizione**: Restituisce la lista di film esistenti
 
-BODY: *eventuale body di richiesta*
+**Parametri**: in questo caso non sono previsti
 
-SUCCESS: *status code* - *descrizione del responso*
+**Body richiesta**: vuoto
 
-FAULTS: *lista di possibili status code e relative cause*
+**Risposta**: in caso di successo un oggetto JSON con i campi `id`, `title`, `director`, `plot`, `coverImageLink`
 
-## Documentazione:
-1. **GET /movies/**
+**Codici di stato restituiti**: 
+* 200 OK
+* 404 Not Found
 
-    *Descrizione:* Restituisce la lista di film esistenti
-   
-    *Successo:* 200 - lista di JSON object 'Movie' (vedi 2.)
 
-    *Fallimento:* 
-    * 404 - Non è presente alcun film memorizzato
+## `/movies/{id}`
 
-3. **GET /movies/{id}**
+### GET
 
-    *Descrizione:* Restituisce un film esistente che corrisponda a {id}
-   
-    *Successo:* 200 - { id, title, director, plot, coverImageLink }
+**Descrizione**: restituisce un film esistente che corrisponda a {id}
 
-    *Fallimento:* 
-    * 404 - Non esiste alcun film esistente che corrisponda a {id}
-       
-5. **GET /moviesessions/{id}**
+**Parametri**: un parametro nel percorso `id` che rappresenta l'identificativo del film da restituire
 
-    *Descrizione:* Restituisce una proiezione che corrisponda a {id}
-   
-    *Successo:* 200 - { id, movie, room, startTime, endTime, seats }
+**Body richiesta**: vuoto
 
-    *Fallimento:* 
-    * 404 - Non esiste alcuna proiezione che corrisponda a {id}
+**Risposta**: in caso di successo un oggetto JSON che rappresenta tutte le proiezioni disponibili di quel film. Ogni proiezione ha i seguenti campi: `id`, `movie`, `startTime`, `endTime`, `room`, `seats`
 
-6. **GET /moviesessions?movie={id}**
+**Codici di stato restituiti**: 
+* 200 OK
+* 404 Not Found
 
-    *Descrizione:* Restituisce una lista di proiezioni il cui film in proiettato corrisponda a {movie} (dove movie è l'id del film)
-   
-    *Successo:* 200 - lista di JSON object 'MovieSession' (vedi 5.) 
 
-    *Fallimento:*
-    * 400 - non è stato specificato il parametro {movie}
-    * 404 - Non esiste alcuna proiezione che corrisponda a {id}
+## `/moviesessions/{id}`  
 
-7. **GET /bookings/{code}**
+## GET
 
-    *Descrizione:* Restituisce una prenotazione che corrisponda a {code}
-   
-    *Successo:* 200 - { code, moviesession, seats }
+**Descrizione**: restituisce una proiezione che corrisponda a {id}
 
-    *Fallimento:* 
-    * 404 - Non esiste alcuna prenotazione che corrisponda a {code}
+**Parametri**: un parametro nel percorso `id` che restituisce che rappresenta l'identificativo di una proiezione
 
-8. **POST /bookings/**
+**Body richiesta**: vuoto
 
-    *Descrizione:* Crea una nuova prentazione 
+**Risposta**: In caso di successo un oggetto json che rappresenta una proiezione. La proiezione ha i seguenti campi: `id`, `movie`, `startTime`, `endTime`, `room`, `seats`
 
-    *Body*: { moviesession, seats }
-   
-    *Successo:* 201 - { code, moviesession, seats }
+**codici di stato restituiti**: 
+* 200 OK
+* 404 Not Found
 
-    *Fallimento:* 
-    * 400 - Il Body non è un oggetto JSON
-    * 404 - Non esiste alcuna proiezione che corrisponda a 'moviesession'
-    * 409 - I posti che si intendono prenotare 'seats' sono già stati riservati
-    * 503 - La porzione di dati che si intende modificare è stata sovrascritta, si consiglia un ricalcolo della richiesta
 
-9. **PUT /bookings/**
+## `/moviessessions?movie={id}`
 
-    *Descrizione:* Modifica una nuova prentazione 
+## GET
 
-    *Body*: { code, moviesession, seats }
-   
-    *Successo:* 204 - *No content*
+**Descrizione**: restituisce una lista di proiezioni il cui film proiettato corrisponda a {movie} (dove movie è l'id del film) 
 
-    *Fallimento:* 
-    * 400 - Il Body non è un oggetto JSON
-    * 404 - Non esiste alcuna proiezione che corrisponda a 'moviesession' oppure non esiste alcuna prenotazione che corrisponda a 'code' (dove 'code' è il codice della prenotazione)
-    * 409 - I nuovi posti che si intendono prenotare 'seats' sono già stati riservati
-    * 503 - La porzione di dati che si intende modificare è stata sovrascritta, si consiglia un ricalcolo della richiesta
+**Parametri**: un parametro `id` che rappresenta un film.
 
-10. **DELETE /bookings/{code}**
+**Body richiesta**: vuoto
 
-    *Descrizione:* Cancella una nuova prentazione, restituisce la prenotazione cancellata
-   
-    *Successo:* 200 - { code, moviesession, seats }
+**Risposta**: in caso di successo un oggetto JSON che rappresenta tutte le proiezioni disponibili di quel film. Ogni proiezione ha i seguenti campi: `id`, `movie`, `startTime`, `endTime`, `room`, `seats`
 
-    *Fallimento:* 
-    * 404 - Nnon esiste alcuna prenotazione che corrisponda a 'code' (dove 'code' è il codice della prenotazione)
+**Codici di stato restituiti**:
+* 200 OK
+* 400 Bad Request
+* 404 Not Found
+
+
+## `/bookings`
+
+## POST 
+
+**Descrizione**: crea una nuova prenotazione
+
+**Parametri**: ci deve essere l'header `Content-Type: application/json`.
+
+**Body richiesta**: rappresentazione in formato JSON della prenotazione con i campi `moviesession` e `seats`.
+
+**Risposta**: In caso di successo la risorsa è stata creata 
+
+**Codici di stato restituiti**:
+* 201 Created
+* 400 Bad Request
+* 404 Not Found
+* 409 Conflict
+* 503 Unprocessable Entity
+
+## PUT
+
+**Descrizione**: Modifica una nuova presentazione
+
+**Body richiesta**: rappresentazione in formato JSON della prenotazione con i campi `moviesession` e `seats` e `code`.
+
+**Risposta**: in caso di successo la risorsa è atata aggiornata
+
+**Codici di stato restituiti**:
+* 201 Created
+* 400 Bad Request
+* 404 Not Found
+* 409 Conflict
+* 503 Unprocessable Entity
+
+
+## `/bookings/{code}`
+
+### GET 
+
+**Descrizione**: Restituisce una prenotazione che corrisponda a {code}
+
+**Parametri**: un parametro `code` che rappresenta il codice di una prenotazine
+
+**Body richiesta**: vuoto
+
+**Risposta**: in caso di successo un oggetto JSON che rappresenta una prenotazione
+
+**codici di stato restituiti**:
+* 200 OK
+* 404 not found
+
+### DELETE
+
+**Descrizione**: Cancella una nuova prentazione, restituisce la prenotazione cancellata
+
+**parametri**: un parametro `code` che rappresenta il codice di una prenotazine
+
+**Body richiesta**: rappresentazione in formato JSON della prenotazione con i campi `moviesession` e `seats` e `code`.
+
+**Risposta**: in caso di successo la prenotazione viene cancellata
+
+**codici di stato restituiti**:
+* 200 OK
+* 404 not found
 
