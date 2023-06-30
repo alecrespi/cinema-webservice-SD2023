@@ -37,7 +37,6 @@
                         throw new Error('Error: ' + response.status);
                     }
             }).then(function(booking){
-                console.log(booking);
                 msId = booking.moviesession;
                 desiredSeats = booking.seats;
                 for(let seat of booking.seats)
@@ -109,13 +108,38 @@
             }
 
 
+
+        fetch("http://localhost:8080/bookings/"+code)
+            .then(function(response) {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Error: ' + response.status);
+                }
+            }).then(function(booking){
+            console.log(booking);
+            msId = booking.moviesession;
+            desiredSeats = booking.seats;
+            for(let seat of booking.seats)
+                document.getElementById("inf").innerHTML =  `
+                            <th>Sala ${booking.moviesession}</th>
+                            <th>Posti ${booking.seats}</th>
+                    `
+
+                document.getElementById("c").innerHTML =  `
+                            <th>Codice ${booking.code}</th>
+                    `
+                });
+
+
+
     </script>
 
 </head>
 <body>
 
 <div id="bookingCodesContainer" class="center">
-    <h2>Your Booking Code</h2>
+    <h2 id="c"></h2>
     <ul id="bookingCodes">
         <!-- Booking codes will be dynamically added here -->
     </ul>
@@ -123,12 +147,8 @@
 
 <table>
     <thead>
-        <tr>
-            <th>Movie</th>
-            <th>Date</th>
-            <th>Session</th>
-            <th>Seat</th>
-            <th>Action</th>
+        <tr class="info" id="inf">
+
         </tr>
         <tr>
             
@@ -160,7 +180,7 @@
 
 <footer>
     <!-- Add your footer content here -->
-    <p>&copy; 2023 CINErisata. All rights reserved.</p>
+    <p>&copy; 2023 Maestoso Studios. All rights reserved.</p>
 </footer>
 
 </body>
